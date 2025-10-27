@@ -11,7 +11,7 @@ It provides a modular backend foundation for any sports-related or membership-ba
 - Create, list, and delete users  
 - Prevent duplicate email registrations with unique constraints  
 - Promote users from **Customer** to **Admin**  
-- Retrieve all registered users (**Admin-only**)
+- Retrieve all registered users.
 
 ### **Authentication & Authorization**
 - Email + password login using **JWT access tokens**  
@@ -21,7 +21,7 @@ It provides a modular backend foundation for any sports-related or membership-ba
 
 ### **Token System**
 - **Access token (JWT):** short-lived, used for authorization  
-- **Refresh token:** long-lived, opaque string stored securely in the database  
+- **Refresh token:** long-lived, opaque string stored securely in the database hashed. 
 - Automatic refresh and rotation for enhanced security
 
 ### **Error Handling**
