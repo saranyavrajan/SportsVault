@@ -88,20 +88,18 @@ namespace SportsVault.Controllers
             };
         }
         
-        public sealed record DeleteUserRequest(string Email);
-
         [Authorize(Roles = "admin")]
-        [HttpDelete("delete")]
+        [HttpDelete("{email}")]
         [SwaggerOperation(Summary = "Delete a User", Description = "Delete a User from Users table")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> DeleteUser([FromBody] DeleteUserRequest req, CancellationToken ct)
+        public async Task<IActionResult> DeleteUser(string email, CancellationToken ct)
         {
-            if (string.IsNullOrWhiteSpace(req.Email))
+            if (string.IsNullOrWhiteSpace(email))
                 return BadRequest("Enter a valid Email.");
 
-            var deleted = await userService.DeleteUserByEmailAsync(req.Email, ct);
+            var deleted = await userService.DeleteUserByEmailAsync(email, ct);
 
             if (!deleted)
                 return NotFound("User not found.");

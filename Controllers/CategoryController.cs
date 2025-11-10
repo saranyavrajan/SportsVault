@@ -25,13 +25,18 @@ namespace SportsVault.Controllers
         }
 
         // Get Category details from Category Name
-        [HttpGet("{name}")]
+        [HttpGet]
         [SwaggerOperation(Summary = "Get Category by Name", Description = "Fetches a single category by its name.")]
-        public async Task<IActionResult> GetCategoryByName(string name)
-        {       
+        public async Task<IActionResult> GetCategoryByName([FromQuery]string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return BadRequest("Query parameter 'name' is required."); 
+
             var category = await categoryService.GetCategoryByNameAsync(name);  
+            
             if (category == null)
                 return NotFound($"Category with name '{name}' not found.");
+            
             return Ok(category);
    
         }
