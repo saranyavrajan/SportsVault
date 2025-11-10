@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SportsVault.Models;
+using SportsVault.Services.Implementations;
 using SportsVault.Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -23,14 +24,16 @@ namespace SportsVault.Controllers
             return CreatedAtAction(nameof(GetCategoryByName), new { name = created.CategoryName }, created);
         }
 
-        // optional helper method for CreatedAtAction
+        // Get Category details from Category Name
         [HttpGet("{name}")]
         [SwaggerOperation(Summary = "Get Category by Name", Description = "Fetches a single category by its name.")]
         public async Task<IActionResult> GetCategoryByName(string name)
-        {
-            // If you don’t have a get-by-name yet, you can implement it later.
-            return Ok();
+        {       
+            var category = await categoryService.GetCategoryByNameAsync(name);  
+            if (category == null)
+                return NotFound($"Category with name '{name}' not found.");
+            return Ok(category);
+   
         }
-
     }
 }

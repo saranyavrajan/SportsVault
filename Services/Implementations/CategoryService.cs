@@ -25,5 +25,20 @@ namespace SportsVault.Services.Implementations
                 Description = entity.Description
             };
         }
+
+        public async Task<CategoryDto?> GetCategoryByNameAsync(string name)
+        {
+            var entity = await context.Category
+                .FirstOrDefaultAsync(c => c.CategoryName == name);
+
+            if (entity == null)
+                return null;
+
+            return new CategoryDto
+            {
+                CategoryName = entity.CategoryName,
+                Description = entity.Description
+            };
+        }
     }
 }
