@@ -8,6 +8,8 @@ namespace SportsVault.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
         public DbSet<RefreshToken> RefreshToken { get; set; }
+        public DbSet<Category> Category { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()

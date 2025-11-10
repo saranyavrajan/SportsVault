@@ -40,12 +40,9 @@ namespace SportsVault.Services.Implementations
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
-                //new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),                
                 new Claim(ClaimTypes.Role, user.Role)
-            };
-            //var key = new SymmetricSecurityKey(
-            //    Encoding.UTF8.GetBytes(configuration.GetValue<string>("Jwt:Key")!));
+            };     
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!));
 
@@ -62,8 +59,7 @@ namespace SportsVault.Services.Implementations
             return new JwtSecurityTokenHandler().WriteToken(tokendescriptor);
         }
         
-        private static (RefreshToken rt, string Raw) CreateRefreshToken(Guid userId)
-        //private static RefreshToken CreateRefreshToken(Guid userId, string? ip, string? ua)
+        private static (RefreshToken rt, string Raw) CreateRefreshToken(Guid userId)        
         {
             var raw = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
             var rt = new RefreshToken
@@ -92,8 +88,7 @@ namespace SportsVault.Services.Implementations
                 return null;
 
             // rotate
-            rt.RevokedUtc = DateTime.UtcNow;  // Make old token entry as revoked with current time.
-            //var newRt = CreateRefreshToken(rt.UserId, GetIp(), GetUserAgent());
+            rt.RevokedUtc = DateTime.UtcNow;  // Make old token entry as revoked with current time.            
             var (newRt, newRawToken) = CreateRefreshToken(rt.UserId);
             rt.ReplacedByTokenHash = newRt.TokenHash;
 
@@ -102,54 +97,6 @@ namespace SportsVault.Services.Implementations
 
             var access = CreateAccessToken(rt.User);
             return new TokenResponseDto { AccessToken = access, RefreshToken = newRawToken};
-        }
-
-        //private async Task<TokenResponseDto> CreateTokenResponse(User user)
-        //{
-        //    return new TokenResponseDto
-        //    {
-        //        AccessToken = CreateToken(user),
-        //        RefreshToken = await GenerateAndSaveRefreshTokenAsync(user)
-        //    };
-        //}
-
-
-
-        //private async Task<string> GenerateAndSaveRefreshTokenAsync(User user)
-        //{
-        //    var refreshToken = GenerateRefreshToken();
-        //    user.RefreshToken = refreshToken;
-        //    user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
-        //    await context.SaveChangesAsync();
-        //    return refreshToken;
-        //}
-
-        //private string GenerateRefreshToken()
-        //{
-        //    var randomNumber = new byte[32];
-        //    using var rng = RandomNumberGenerator.Create();
-        //    rng.GetBytes(randomNumber);
-        //    return Convert.ToBase64String(randomNumber);
-        //}       
-
-        //public async Task<TokenResponseDto?> RefreshTokensAsync(RefreshTokenRequestDto request)
-        //{
-        //    var user = await ValidateRefreshTokenAsync(request.Email, request.RefreshToken);
-        //    if (user is null)
-        //        return null;
-
-        //    return await CreateTokenResponse(user);
-        //}
-
-        //private async Task<User?> ValidateRefreshTokenAsync(Guid userId, string refreshToken)
-        //{
-        //    var user = await context.Users.FindAsync(userId);
-        //    if (user is null || user.RefreshToken != refreshToken
-        //        || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
-        //    {
-        //        return null;
-        //    }
-        //    return user;
-        //}
+        }        
     }
 }

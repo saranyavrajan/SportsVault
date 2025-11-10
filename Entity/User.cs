@@ -41,7 +41,7 @@ namespace SportsVault.Entity
         public string Role { get; set; } = "customer";
 
         [Required]
-        public Boolean IsActive { get; set; } = true;
+        public bool IsActive { get; set; } = true;
 
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

@@ -17,7 +17,7 @@ namespace SportsVault.Controllers
     {
         //List All Users
         [HttpGet]
-        [SwaggerOperation(Summary = "List All Users", Description = "List All Users")]
+        [SwaggerOperation(Summary = "List All Users", Description = "Gives a list of all current Users.")]
         public async Task<ActionResult> GetAllUsers (CancellationToken ct)
         {
             var users = await userService.GetAllUsersAsync(ct);
@@ -43,7 +43,7 @@ namespace SportsVault.Controllers
         // List all users
         [HttpPost("login")]
         [AllowAnonymous]
-        [SwaggerOperation(Summary = "Check User Login", Description = "Check if valid user or not.")]
+        [SwaggerOperation(Summary = "Check User Login", Description = "Check if a user has valid access or not.")]
         public async Task<ActionResult<TokenResponseDto>> Login(UserDto request)
         {
             var result = await authService.LoginAsync(request);
@@ -67,7 +67,7 @@ namespace SportsVault.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPatch("adminrole")]
-        [SwaggerOperation(Summary = "Change role to admin performed by Admin Role", Description = "Generate role to admin.")]
+        [SwaggerOperation(Summary = "Change role to admin performed by Admin Role", Description = "Give Admin Access for User.")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
