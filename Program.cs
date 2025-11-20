@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SportsVault.Data;
+using SportsVault.Extensions;
 using SportsVault.Services.Implementations;
 using SportsVault.Services.Interfaces;
 using System.Security.Claims;
@@ -48,10 +49,7 @@ builder.Services.AddAuthorization(o =>
     o.AddPolicy("AdminOnly", p => p.RequireRole("admin"));
 });
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddMyServices();
 
 var app = builder.Build();
 
